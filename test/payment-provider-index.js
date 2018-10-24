@@ -14,7 +14,7 @@ const _legalInformation = [
     web3.utils.utf8ToHex(_registrationNumber)
 ];
 
-contract('Registry', (accounts) => {
+contract('PaymentProvider', (accounts) => {
     const owner = accounts[1];
     const provider = accounts[2];
     const other = accounts[9];

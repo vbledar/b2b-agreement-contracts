@@ -1,20 +1,31 @@
-const WTIndex = artifacts.require('WTIndex');
-
+const StringUtilities = artifacts.require('StringUtilities');
+const Registry = artifacts.require('Registry');
+const MerchantIndex = artifacts.require('MerchantIndex');
+const PaymentProviderIndex = artifacts.require('PaymentProviderIndex');
+const MerchantAgreementIndex = artifacts.require('MerchantAgreementIndex');
 
 module.exports = function (deployer, network, accounts) {
-  if (network == 'mainnent' || network == 'ropsten') {
-    console.log('Network:', network);
-    console.log('Accounts:', accounts);
-
-    const lifTokenAddress = (network == 'mainnent')
-      ? '0xeb9951021698b42e4399f9cbb6267aa35f82d59d'
-      : '0x5FDFBa355A30FB00ee12965cf3a1c24CA8DF77FB';
-
-    deployer.deploy(WTIndex).then(function (wtIndexContract) {
-      console.log('WTIndex address:', wtIndexContract.address);
-      wtIndexContract.setLifToken(lifTokenAddress).then(function (tx) {
-        console.log('LifToken set on tx:', tx.tx);
-      });
+    // deploy the registry contract
+    deployer.deploy(Registry).then(function (registryContract) {
+        console.log('Registry contract address:', registryContract.address);
     });
-  }
+
+    deployer.deploy(StringUtilities)
+        .then(function (stringUtilitiesLibrary) {
+            deployer.link(StringUtilities, PaymentProviderIndex);
+            return deployer.deploy(PaymentProviderIndex);
+        })
+        .then(function (paymentProviderIndexContract) {
+            console.log('Payment provider index contract address:', paymentProviderIndexContract.address);
+        });
+
+  // deploy the merchant index contract
+  deployer.deploy(MerchantIndex).then(function (merchantIndexContract) {
+    console.log('Merchant index contract address:', merchantIndexContract.address);
+  });
+
+    // deploy the merchant agreement contract
+    deployer.deploy(MerchantAgreementIndex).then(function (merchantAgreementIndexContract) {
+        console.log('Merchant agreement index contract address:', merchantAgreementIndexContract.address);
+    });
 };

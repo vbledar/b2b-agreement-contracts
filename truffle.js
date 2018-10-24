@@ -17,6 +17,13 @@ module.exports = {
       gas: 0xfffffffffff,
       gasPrice: 0x01
     },
+    testnet: {
+        host: "localhost",
+        network_id: "*",
+        port: 8545,
+        gas: 6721975,
+        gasPrice: 2000000000
+    },
     mainnet: getInfuraConfig('mainnet', 1),
     ropsten: getInfuraConfig('ropsten', 3)
   },

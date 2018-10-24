@@ -4,6 +4,8 @@ import "./MerchantAgreement.sol";
 
 /**
  * Create by vbledar on 24.10.18
+ *
+ * This contract is essentially holding a list of all MerchantAgreement contracts.
  */
 contract MerchantAgreementIndex {
 
@@ -21,6 +23,8 @@ contract MerchantAgreementIndex {
     mapping (address => mapping (address => address[])) merchantAgreementByProvider;
     mapping (address => mapping (address => address[])) merchantAgreementByMerchant;
 
+    event MerchantAgreementRequested(address _merchant, address _merchantAgreementAddress);
+
     constructor () public {
         merchantAgreementList.length ++;
     }
@@ -29,6 +33,7 @@ contract MerchantAgreementIndex {
         MerchantAgreement merchantAgreement = new MerchantAgreement(msg.sender);
         merchantAgreementList.push(merchantAgreement);
         merchantAgreementListOfMerchant[msg.sender].push(merchantAgreement);
+        emit MerchantAgreementRequested(msg.sender, merchantAgreement);
     }
 
     function getMerchantAgreementListOfMerchant(address merchant) external view returns (address[]) {

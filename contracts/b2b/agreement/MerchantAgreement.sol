@@ -57,4 +57,12 @@ contract MerchantAgreement {
         state = MerchantAgreementState.ACCEPTED;
         emit MerchantAgreementAcceptance(merchant, provider);
     }
+
+    function getState () external view returns (MerchantAgreementState) {
+        return state;
+    }
+
+    function getData () external view returns (address, address, MerchantAgreementState, uint256) {
+        return (merchant, provider, state, fee);
+    }
 }

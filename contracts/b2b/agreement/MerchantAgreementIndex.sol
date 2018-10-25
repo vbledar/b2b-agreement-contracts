@@ -36,10 +36,6 @@ contract MerchantAgreementIndex {
         emit MerchantAgreementRequested(msg.sender, merchantAgreement);
     }
 
-    function getMerchantAgreementListOfMerchant(address merchant) external view returns (address[]) {
-        return merchantAgreementListOfMerchant[merchant];
-    }
-
     function providerProposal(address _provider, uint256 _fee, address _merchantAgreementContractAddress) external {
         MerchantAgreement merchantAgreement = MerchantAgreement(_merchantAgreementContractAddress);
         merchantAgreement.providerProposed(_provider, _fee);
@@ -48,8 +44,20 @@ contract MerchantAgreementIndex {
         merchantAgreementByMerchant[merchantAgreement.merchant()][_provider].push(merchantAgreement);
     }
 
+    function getMerchantAgreementList () external view returns (address[]) {
+        return merchantAgreementList;
+    }
+
     function getMerchantAgreementListLength() public view returns (uint256) {
         return merchantAgreementList.length;
+    }
+
+    function getMerchantAgreementsOfMerchant(address _merchant) external view returns (address[]) {
+        return merchantAgreementListOfMerchant[_merchant];
+    }
+
+    function getMerchantAgreementsOfProvider(address _provider) external view returns (address[]) {
+        return merchantAgreementListOfProvider[_provider];
     }
 
     function getMerchantAgreementsByProvider(address _merchant, address _provider) external view returns (address[]) {

@@ -40,6 +40,10 @@ contract MerchantIndex {
         return merchantListByOwner[msg.sender];
     }
 
+    function getMerchantContractListForMerchant (address _merchantAddress) external view returns (address[]) {
+        return merchantListByOwner[_merchantAddress];
+    }
+
     function getMerchantListLength() public view returns (uint) {
         return merchantList.length;
     }

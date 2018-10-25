@@ -32,7 +32,7 @@ contract('MerchantAgreement', (accounts) => {
             let contained = await merchantAgreementIndexContract.getMerchantAgreementListLength({ from: owner });
             assert.equal(2, contained);
 
-            let merchantAgreementList = await merchantAgreementIndexContract.getMerchantAgreementListOfMerchant(merchant, { from: merchant });
+            let merchantAgreementList = await merchantAgreementIndexContract.getMerchantAgreementsOfMerchant(merchant, { from: merchant });
             assert.equal(1, merchantAgreementList.length);
 
             merchantAgreementContract = MerchantAgreement.at(merchantAgreementList[0]);
@@ -45,7 +45,7 @@ contract('MerchantAgreement', (accounts) => {
             let contained = await merchantAgreementIndexContract.getMerchantAgreementListLength({ from: owner });
             assert.equal(2, contained);
 
-            let merchantAgreementList = await merchantAgreementIndexContract.getMerchantAgreementListOfMerchant(merchant, { from: merchant });
+            let merchantAgreementList = await merchantAgreementIndexContract.getMerchantAgreementsOfMerchant(merchant, { from: merchant });
             assert.equal(1, merchantAgreementList.length);
 
             merchantAgreementContract = MerchantAgreement.at(merchantAgreementList[0]);
@@ -68,7 +68,7 @@ contract('MerchantAgreement', (accounts) => {
             let contained = await merchantAgreementIndexContract.getMerchantAgreementListLength({ from: owner });
             assert.equal(2, contained);
 
-            let merchantAgreementList = await merchantAgreementIndexContract.getMerchantAgreementListOfMerchant(merchant, { from: merchant });
+            let merchantAgreementList = await merchantAgreementIndexContract.getMerchantAgreementsOfMerchant(merchant, { from: merchant });
             assert.equal(1, merchantAgreementList.length);
 
             merchantAgreementContract = MerchantAgreement.at(merchantAgreementList[0]);
@@ -80,17 +80,13 @@ contract('MerchantAgreement', (accounts) => {
             assert.equal(state.c[0], 1);
         })
 
-        // it('Payment provider contract contains the correct information.', async () => {
-        //     await paymentProviderIndexContract.registerPaymentProvider(_legalInformation, { from: provider });
-        //     let paymentProviderList = await paymentProviderIndexContract.getPaymentProviderListByOwner({ from: provider });
-        //     assert.equal(1, paymentProviderList.length);
-        //     paymentProviderContract = PaymentProvider.at(paymentProviderList[0]);
-        //     assert.isNotNull(paymentProviderContract);
-        //     let paymentProviderLegalInformation = await paymentProviderContract.legalInformation();
-        //     let paymentProviderName = paymentProviderLegalInformation[0];
-        //     let paymentProviderRegistrationNumber = paymentProviderLegalInformation[1];
-        //     assert.equal(_name, paymentProviderName);
-        //     assert.equal(_registrationNumber, paymentProviderRegistrationNumber);
-        // })
+        it('Merchant is able to list all his merchant agreements.', async () => {
+            await merchantAgreementIndexContract.registerMerchantAgreement({ from: merchant });
+            let contained = await merchantAgreementIndexContract.getMerchantAgreementListLength({ from: owner });
+            assert.equal(2, contained);
+
+            let merchantAgreementList = await merchantAgreementIndexContract.getMerchantAgreementsOfMerchant(merchant, { from: merchant });
+            assert.equal(1, merchantAgreementList.length);
+        })
     });
 });

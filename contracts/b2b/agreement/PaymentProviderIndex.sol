@@ -41,6 +41,10 @@ contract PaymentProviderIndex {
         return paymentProviderListByOwner[msg.sender];
     }
 
+    function getPaymentProviderContractListForProvider (address _providerAddress) external view returns (address[]) {
+        return paymentProviderListByOwner[_providerAddress];
+    }
+
     function getPaymentProviderListLength() public view returns (uint) {
         return paymentProviderList.length;
     }
